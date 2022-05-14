@@ -1,5 +1,5 @@
 import { createBoard, playMove } from "./connect4.js";
-
+// When moved to non-github website then change. E.g. hampug2.pythonanywhere.com
 function getWebSocketServer() {
   if (window.location.host === "irsbugs.github.io") {
     return "wss://hampug-connect.herokuapp.com/";
