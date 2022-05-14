@@ -1,5 +1,15 @@
 import { createBoard, playMove } from "./connect4.js";
 
+function getWebSocketServer() {
+  if (window.location.host === "irsbugs.github.io") {
+    return "wss://hampug-connect.herokuapp.com/";
+  } else if (window.location.host === "localhost:8000") {
+    return "ws://localhost:8001/";
+  } else {
+    throw new Error(`Unsupported host: ${window.location.host}`);
+  }
+}
+
 function initGame(websocket) {
   websocket.addEventListener("open", () => {
     // Send an "init" event according to who is connecting.
@@ -76,8 +86,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const board = document.querySelector(".board");
   createBoard(board);
   // Open the WebSocket connection and register event handlers.
-  const websocket = new WebSocket("ws://localhost:8001/");
+  // Change in step 3 - Ian
+  //const websocket = new WebSocket("ws://localhost:8001/");
+  const websocket = new WebSocket(getWebSocketServer());
   initGame(websocket);
   receiveMoves(board, websocket);
   sendMoves(board, websocket);
 });
+
